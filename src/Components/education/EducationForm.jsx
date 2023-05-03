@@ -6,11 +6,13 @@ import { useState } from "react";
 import { uid } from "uid";
 import { useDispatch } from "react-redux";
 import { add, update } from "../../feature/education/educationSlice";
+import unSavedChangeWarning from "../../hooks/useUnsavedChangeWarning";
 function EducationForm(props) {
   const [institute, setInstitute] = useState(props?.institution ?? "");
   const [_degree, setDegree] = useState(props?.degree ?? "");
   const [percentage, setPercentage] = useState(props?.percent ?? "");
   const dispatch = useDispatch();
+  const [setDirty, setPristine] = unSavedChangeWarning();
   const handleSave = (id) => {
     // if id exist then its a existing education
     if (id) {
@@ -59,7 +61,10 @@ function EducationForm(props) {
         label="Institution Name"
         variant="outlined"
         value={institute}
-        onChange={(e) => setInstitute(e.target.value)}
+        onChange={(e) => {
+          setInstitute(e.target.value);
+          setDirty();
+        }}
         required
       />
       <TextField
@@ -68,7 +73,10 @@ function EducationForm(props) {
         variant="outlined"
         type="text"
         value={_degree}
-        onChange={(e) => setDegree(e.target.value)}
+        onChange={(e) => {
+          setDegree(e.target.value);
+          setDirty();
+        }}
         required
       />
 
@@ -77,7 +85,10 @@ function EducationForm(props) {
         label="Percent/CGPA"
         variant="outlined"
         value={percentage}
-        onChange={(e) => setPercentage(e.target.value)}
+        onChange={(e) => {
+          setPercentage(e.target.value);
+          setDirty();
+        }}
       />
       <Button onClick={() => handleSave(props?.id ?? null)}>Save</Button>
     </Box>

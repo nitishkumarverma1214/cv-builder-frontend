@@ -1,22 +1,55 @@
-import React from "react";
-import { Box } from "@mui/material";
+import React, { useState } from "react";
+import { Box, CircularProgress } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import TextField from "@mui/material/TextField";
 import CardHeader from "./utils/CardHeader";
 import Stack from "@mui/material/Stack";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { update } from "../feature/personal-details/personalDetailSlice";
+import unSavedChangeWarning from "../hooks/useUnsavedChangeWarning";
+import axios from "axios";
 function BasicDetails() {
   const dispatch = useDispatch();
   const personalDetail = useSelector((state) => state.personalDetail);
+  const [setDirty] = unSavedChangeWarning();
+  const [picLoading, setPicLoading] = useState(false);
+
+  const uploadImage = async (value) => {
+    setPicLoading(true);
+    const formData = new FormData();
+    formData.append("photo", value);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/upload/profile`,
+        formData,
+        { withCredentials: true },
+      );
+
+      if (response.status === 200) {
+        setPicLoading(false);
+        dispatch(update({ key: "image", value: response.data.file }));
+        toast.success("Profile picture updated!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (error) {
+      setPicLoading(false);
+      toast.error("Please upload a proper image", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+  // console.log(data);
   return (
     <>
       <CardHeader header="Basic Details" />
 
       <Box
         component="form"
+        encType="multipart/form-data"
         maxWidth={true}
         sx={{
           "& > :not(style)": { m: 1 },
@@ -37,9 +70,10 @@ function BasicDetails() {
             name="name"
             value={personalDetail.name}
             sx={{ maxWidth: "75%" }}
-            onChange={(e) =>
-              dispatch(update({ key: "name", value: e.target.value }))
-            }
+            onChange={(e) => {
+              dispatch(update({ key: "name", value: e.target.value }));
+              setDirty();
+            }}
             required
           />
           <IconButton
@@ -51,13 +85,12 @@ function BasicDetails() {
               hidden
               accept="image/*"
               type="file"
-              name="image"
-              onChange={(e) =>
-                dispatch(update({ key: "image", value: e.target.value }))
-              }
+              name="photo"
+              onChange={(e) => uploadImage(e.target.files[0])}
             />
             <PhotoCamera />
           </IconButton>
+          {picLoading && <CircularProgress />}
         </Stack>
         <TextField
           id="position"
@@ -66,9 +99,10 @@ function BasicDetails() {
           type="text"
           name="position"
           value={personalDetail.position}
-          onChange={(e) =>
-            dispatch(update({ key: "position", value: e.target.value }))
-          }
+          onChange={(e) => {
+            dispatch(update({ key: "position", value: e.target.value }));
+            setDirty();
+          }}
           required
         />
         <TextField
@@ -78,9 +112,10 @@ function BasicDetails() {
           type="email"
           value={personalDetail.email}
           name="email"
-          onChange={(e) =>
-            dispatch(update({ key: "email", value: e.target.value }))
-          }
+          onChange={(e) => {
+            dispatch(update({ key: "email", value: e.target.value }));
+            setDirty();
+          }}
           required
         />
         <TextField
@@ -90,9 +125,10 @@ function BasicDetails() {
           type="tel"
           value={personalDetail.phone}
           name="phone"
-          onChange={(e) =>
-            dispatch(update({ key: "phone", value: e.target.value }))
-          }
+          onChange={(e) => {
+            dispatch(update({ key: "phone", value: e.target.value }));
+            setDirty();
+          }}
         />
         <TextField
           id="address"
@@ -100,9 +136,10 @@ function BasicDetails() {
           variant="outlined"
           value={personalDetail.address}
           name="address"
-          onChange={(e) =>
-            dispatch(update({ key: "address", value: e.target.value }))
-          }
+          onChange={(e) => {
+            dispatch(update({ key: "address", value: e.target.value }));
+            setDirty();
+          }}
         />
         <TextField
           id="state"
@@ -110,9 +147,10 @@ function BasicDetails() {
           variant="outlined"
           value={personalDetail.state}
           name="state"
-          onChange={(e) =>
-            dispatch(update({ key: "state", value: e.target.value }))
-          }
+          onChange={(e) => {
+            dispatch(update({ key: "state", value: e.target.value }));
+            setDirty();
+          }}
         />
         <TextField
           id="pincode"
@@ -120,9 +158,10 @@ function BasicDetails() {
           variant="outlined"
           value={personalDetail.pin}
           name="pin"
-          onChange={(e) =>
-            dispatch(update({ key: "pin", value: e.target.value }))
-          }
+          onChange={(e) => {
+            dispatch(update({ key: "pin", value: e.target.value }));
+            setDirty();
+          }}
         />
         <TextField
           id="intro"
@@ -130,9 +169,10 @@ function BasicDetails() {
           variant="outlined"
           value={personalDetail.summary}
           name="summary"
-          onChange={(e) =>
-            dispatch(update({ key: "summary", value: e.target.value }))
-          }
+          onChange={(e) => {
+            dispatch(update({ key: "summary", value: e.target.value }));
+            setDirty();
+          }}
           multiline
           rows={3}
         />

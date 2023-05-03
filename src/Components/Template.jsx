@@ -22,7 +22,7 @@ function Template() {
     textAlign: "left",
   };
   return (
-    <Paper sx={{ borderRadius: "1rem" }}>
+    <Paper sx={{ borderRadius: "1rem" }} id="preview-container">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container>
           {/* color palet https://colorhunt.co/palette/6096b493bfcfbdcdd6eee9da */}
@@ -35,7 +35,7 @@ function Template() {
               }}
             >
               <img
-                src={profile}
+                src={personalDetail.image ? personalDetail.image : profile}
                 style={{ width: "100%", maxWidth: "400px", height: "auto" }}
                 alt="profile-pic"
               />

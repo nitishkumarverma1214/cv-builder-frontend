@@ -23,6 +23,9 @@ import { LoadingButton } from "@mui/lab";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { facebookLogin, googleLogin } from "./Login";
+import { validateEmail } from "../../util/validateEmail";
+import { validateUsername } from "../../util/validateUsername";
+import { validatePassword } from "../../util/validatePassword";
 function Signup() {
   const googleButton = {
     backgroundColor: "#4285f4",
@@ -96,7 +99,13 @@ function Signup() {
   return (
     <Box
       component="form"
-      sx={{ border: "1px solid grey", padding: "1rem", borderRadius: "1rem" }}
+      sx={{
+        border: "1px solid grey",
+        padding: "1rem",
+        borderRadius: "1rem",
+        marginTop: "4rem",
+        marginBottom: "2rem",
+      }}
       noValidate
       variant="outlined"
       autoComplete="off"
@@ -132,6 +141,12 @@ function Signup() {
               name="name"
               required
               value={username}
+              error={username.length > 0 && validateUsername(username)}
+              helperText={
+                username.length > 0 && validateUsername(username)
+                  ? "Invalid username"
+                  : " "
+              }
               onChange={(e) => setUsername(e.target.value)}
             />
 
@@ -142,6 +157,12 @@ function Signup() {
               name="email"
               required
               value={email}
+              error={email.length > 0 && validateEmail(email)}
+              helperText={
+                email.length > 0 && validateEmail(email)
+                  ? "Invalid email format!"
+                  : " "
+              }
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
@@ -158,6 +179,7 @@ function Signup() {
                 id="password"
                 required
                 value={password}
+                error={password.length > 0 && validatePassword(password)}
                 onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "password"}
                 endAdornment={
@@ -174,6 +196,12 @@ function Signup() {
                 }
                 label="Password"
               />
+              {password.length > 0 && validatePassword(password) && (
+                <span style={{ color: "red", fontSize: "0.75rem" }}>
+                  password of length 8 or more with one digit one special
+                  character one lower and uppercase letter
+                </span>
+              )}
             </FormControl>
             <LoadingButton
               variant="solid"

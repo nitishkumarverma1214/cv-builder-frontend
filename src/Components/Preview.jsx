@@ -1,5 +1,4 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
 import profile from "../assets/man.png";
 import { useSelector } from "react-redux";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -29,7 +28,7 @@ function Preview() {
     marginRight: "0.5rem",
   };
   return (
-    <div className="preview-border">
+    <div id="preview-container">
       <div className="preview-content">
         <h1>{personalDetail.name}</h1>
         <h3>{personalDetail.position}</h3>
@@ -71,7 +70,7 @@ function Preview() {
           </div>
           <div style={{ flexBasis: "30%" }}>
             <img
-              src={profile}
+              src={personalDetail.image ? personalDetail.image : profile}
               alt="profile-picture"
               style={{ width: "100%", maxWidth: "400px", height: "auto" }}
             />

@@ -20,6 +20,8 @@ import { LoadingButton } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { validateEmail } from "../../util/validateEmail";
+import { validatePassword } from "../../util/validatePassword";
 
 export const googleLogin = async () => {
   try {
@@ -170,6 +172,12 @@ function Login() {
               name="email"
               required
               value={email}
+              error={email.length > 0 && validateEmail(email)}
+              helperText={
+                email.length > 0 && validateEmail(email)
+                  ? "Invalid email format!"
+                  : " "
+              }
               onChange={(e) => setEmail(e.target.value)}
             />
 
@@ -178,6 +186,7 @@ function Login() {
               <OutlinedInput
                 id="password"
                 value={password}
+                error={password.length > 0 && validatePassword(password)}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 type={showPassword ? "text" : "password"}
@@ -195,6 +204,12 @@ function Login() {
                 }
                 label="Password"
               />
+              {password.length > 0 && validatePassword(password) && (
+                <span style={{ color: "red", fontSize: "0.75rem" }}>
+                  password of length 8 or more with one digit one special
+                  character one lower and uppercase letter
+                </span>
+              )}
             </FormControl>
             <LoadingButton
               variant="solid"
