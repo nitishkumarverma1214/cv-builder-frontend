@@ -137,7 +137,12 @@ function Login() {
     <>
       <Box
         component="form"
-        sx={{ border: "1px solid grey", padding: "1rem", borderRadius: "1rem" }}
+        sx={{
+          border: "1px solid grey",
+          padding: "1rem",
+          borderRadius: "1rem",
+          marginTop: "2rem",
+        }}
         noValidate
         variant="outlined"
         autoComplete="off"

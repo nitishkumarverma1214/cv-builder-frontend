@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
+    "react-share": "^4.4.1",
     "react-toastify": "^9.1.2",
     "system^5.4.1": "link:@mui/system^5.4.1",
     "uid": "^2.0.2",

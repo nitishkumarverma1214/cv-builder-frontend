@@ -7,7 +7,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HomeIcon from "@mui/icons-material/Home";
-function Preview() {
+function Preview({ font }) {
   const personalDetail = useSelector((state) => state.personalDetail);
   const educationList = useSelector((state) => state.education);
   const experienceList = useSelector((state) => state.experience);
@@ -28,7 +28,7 @@ function Preview() {
     marginRight: "0.5rem",
   };
   return (
-    <div id="preview-container">
+    <div id="export-pdf" style={{ fontFamily: font }}>
       <div className="preview-content">
         <h1>{personalDetail.name}</h1>
         <h3>{personalDetail.position}</h3>

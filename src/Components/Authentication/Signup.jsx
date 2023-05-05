@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
@@ -26,6 +23,7 @@ import { facebookLogin, googleLogin } from "./Login";
 import { validateEmail } from "../../util/validateEmail";
 import { validateUsername } from "../../util/validateUsername";
 import { validatePassword } from "../../util/validatePassword";
+
 function Signup() {
   const googleButton = {
     backgroundColor: "#4285f4",
@@ -53,6 +51,15 @@ function Signup() {
     if (!username || !email || !password) {
       setIsLoading(false);
       toast.error("  Please Fill all the Feilds", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+
+      return;
+    }
+
+    if (validateEmail(email) || validatePassword(password)) {
+      setIsLoading(false);
+      toast.error("Please fill all the fields correctly", {
         position: toast.POSITION.TOP_RIGHT,
       });
 
